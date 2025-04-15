@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mlproject"
+authors = [
+    {name = "Athos", email = "athos@gmail.com"},
+]
+description = "MLOPs Project 1 End to End"
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas",
+    "scikit-learn",
+    "numpy"
+]
+
+[project.optional-dependencies]
+dev = []
+test = []
