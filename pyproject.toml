@@ -1,22 +1,20 @@
-[build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "mlproject"
-authors = [
-    {name = "Athos", email = "athos@gmail.com"},
-]
-description = "MLOPs Project 1 End to End"
+[tool.poetry]
+name = "mlops_project"
 version = "0.0.1"
+description = "MLOPs Project 1 End to End"
+authors = ["Athos <athos@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "pandas",
-    "scikit-learn",
-    "numpy"
-]
+packages = [{ include = "src/mlops_project" }]
 
-[project.optional-dependencies]
-dev = []
-test = []
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "*"
+numpy = "*"
+scikit-learn = "*"
+
+[tool.poetry.group.dev.dependencies]
+#add dev libs here (pytest, black...)
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
