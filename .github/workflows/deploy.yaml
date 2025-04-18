@@ -1,29 +1,26 @@
+name: Deploy MLOps 1 - DEV
+
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: "Cible (dev ou prod)"
-        required: true
-        default: "dev"
 
 jobs:
-  deploy:
+  deploy-dev:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Configure AWS
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-3
+          aws-region: eu-west-3  # adapte si besoin
 
-      - name: Deploy bucket to ${{ github.event.inputs.environment }}
+      - name: Deploy S3 bucket (dev)
         run: |
           aws cloudformation deploy \
             --template-file infra/cloudformation/s3_bucket.yaml \
-            --stack-name mlops-s3-${{ github.event.inputs.environment }} \
-            --parameter-overrides Environment=${{ github.event.inputs.environment }} \
+            --stack-name mlops-s3 \
             --capabilities CAPABILITY_NAMED_IAM
