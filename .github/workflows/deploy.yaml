@@ -21,9 +21,10 @@ jobs:
       - name: Deploy S3 bucket (dev)
         run: |
           echo "🚀 START - S3 Bucket Deployment"
+          echo "Nom du bucket: $S3_BUCKET_NAME"
           aws cloudformation deploy \
+            --parameter-overrides BucketName=$S3_BUCKET_NAME \
             --template-file infra/cloudformation/s3_bucket.yaml \
             --stack-name mlops-s3 \
-            --parameter-overrides BucketName=$S3_BUCKET_NAME \
             --capabilities CAPABILITY_NAMED_IAM
           echo "✅ END - S3 Bucket Deployment"
