@@ -3,6 +3,9 @@ name: Deploy MLOps 1 - DEV
 on:
   workflow_dispatch:
 
+env:
+  S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
@@ -21,7 +24,6 @@ jobs:
       - name: Deploy S3 bucket (dev)
         run: |
           echo "🚀 START - S3 Bucket Deployment"
-          echo "Nom du bucket: $S3_BUCKET_NAME"
           aws cloudformation deploy \
             --parameter-overrides BucketName=$S3_BUCKET_NAME \
             --template-file infra/cloudformation/s3_bucket.yaml \
