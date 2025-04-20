@@ -1,11 +1,15 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: S3 Bucket to store Datasets and MLflow tracking
 
+Parameters:
+  BucketName:
+    Type: String
+    Description: Bucket Name to create
 Resources:
   MlopsDataBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: athos-mlops0-bucket
+      BucketName: !Ref BucketName
       AccessControl: Private
       VersioningConfiguration:
         Status: Enabled
