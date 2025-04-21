@@ -13,7 +13,7 @@ class DataFetcher:
         Fetches a CSV file from a public URL and uploads it to the S3 bucket
         under the datasets/ folder.
         """
-        s3_key = f"{self.s3_prefix}{filename}"
+        s3_key = f"{self.s3_prefix}{filename}_raw.csv"
 
         try:
             response = requests.get(url, stream=True)
@@ -29,7 +29,7 @@ class DataFetcher:
 
     def upload_csv_from_rds(self, query: str, filename: str, connection_params: dict):
         """
-        Placeholder for future functionality to extract data from RDS,
+        Placeholder for future functionality to extract data_retriever from RDS,
         convert to CSV, and upload to S3.
         """
         raise NotImplementedError("This method will handle RDS extraction in the future.")

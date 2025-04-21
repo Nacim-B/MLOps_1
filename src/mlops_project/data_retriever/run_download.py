@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from mlops_project.data.fetch_data import DataFetcher
+from mlops_project.data_retriever.fetch_data import DataFetcher
 
 def main():
     load_dotenv()
