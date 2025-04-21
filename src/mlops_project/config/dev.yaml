@@ -1,0 +1,11 @@
+project_name: titanic-classification
+
+# Task configuration
+type: classification
+target: Survived
+id_column: PassengerId
+retrain_only: True # retrain existing model
+
+# Train/test split
+random_state: 42
+

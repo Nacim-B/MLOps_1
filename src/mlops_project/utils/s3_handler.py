@@ -79,3 +79,19 @@ class S3Handler:
         df.to_csv(buffer, index=index)
         self.s3.put_object(Bucket=self.bucket, Key=key, Body=buffer.getvalue())
         print(f"✅ CSV saved to s3://{self.bucket}/{key}")
+
+
+    def save_model_to_s3(self, model, key: str):
+        """
+        Save a model object to S3 using pickle.
+
+        Args:
+            model: The model object to serialize.
+            key (str): Destination path in S3.
+        """
+        buffer = BytesIO()
+        pickle.dump(model, buffer)
+        buffer.seek(0)
+
+        self.s3.put_object(Bucket=self.bucket, Key=key, Body=buffer.getvalue())
+        print(f"✅ Model saved to s3://{self.bucket}/{key}")
