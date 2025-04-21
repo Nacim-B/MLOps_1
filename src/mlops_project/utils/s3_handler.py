@@ -3,11 +3,31 @@ from io import BytesIO, StringIO
 import pandas as pd
 import boto3
 import pickle
+import requests
 
-class S3Loader:
+class S3Handler:
     def __init__(self, bucket: str):
         self.bucket = bucket
         self.s3 = boto3.client("s3")
+
+    def upload_csv_from_url_to_s3(self, url: str, filename: str):
+        """
+        Fetches a CSV file from a public URL and uploads it to the S3 bucket
+        under the datasets/ folder.
+        """
+        s3_key = f"datasets/{filename}_raw.csv"
+
+        try:
+            response = requests.get(url, stream=True)
+            response.raise_for_status()
+
+            self.s3.upload_fileobj(response.raw, self.bucket, s3_key)
+            print(f"✅ CSV uploaded to s3://{self.bucket}/{s3_key}")
+
+        except requests.RequestException as e:
+            print(f"❌ Failed to download CSV: {e}")
+        except Exception as e:
+            print(f"❌ Unexpected error: {e}")
 
     def load_csv_from_s3(self, key: str) -> pd.DataFrame:
         """
@@ -45,3 +65,17 @@ class S3Loader:
         model = pickle.load(response["Body"])
         print(f"✅ Loaded model from s3://{self.bucket}/{key}")
         return model
+
+    def save_csv_to_s3(self, df: pd.DataFrame, key: str, index: bool = True):
+        """
+        Saves a pandas DataFrame as CSV to S3.
+
+        Args:
+            df (pd.DataFrame): The DataFrame to save.
+            key (str): Path/key in S3 bucket.
+            index (bool): Whether to include the index in the CSV. Default is True.
+        """
+        buffer = StringIO()
+        df.to_csv(buffer, index=index)
+        self.s3.put_object(Bucket=self.bucket, Key=key, Body=buffer.getvalue())
+        print(f"✅ CSV saved to s3://{self.bucket}/{key}")
