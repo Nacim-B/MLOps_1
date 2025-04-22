@@ -9,6 +9,7 @@ from mlops_project.utils.modelisation import ModelTrainer
 def main():
     # Load env + config
     load_dotenv()
+
     config = load_config("./config/dev.yaml")
     project_name = config['project_name']
 
