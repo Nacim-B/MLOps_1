@@ -1,4 +1,4 @@
-name: Deploy MLOps 1 - DEV
+name: Deploy MLOps 1
 
 on:
   workflow_dispatch:
@@ -30,3 +30,20 @@ jobs:
             --stack-name mlops-s3 \
             --capabilities CAPABILITY_NAMED_IAM
           echo "✅ END - S3 Bucket Deployment"
+
+      - name: Deploy ECR repository
+        run: |
+          echo "🚀 START - ECR Repo Deployment"
+          aws cloudformation deploy \
+            --template-file infra/cloudformation/ecr.yaml \
+            --stack-name mlops-ecr
+          echo "✅ END - ECR Repo Deployment"
+
+      - name: Deploy ECS Cluster
+        run: |
+          echo "🚀 START - ECS Cluster Deployment"
+          aws cloudformation deploy \
+            --template-file infra/cloudformation/ecs_cluster.yaml \
+            --stack-name mlops-ecs-cluster
+          echo "✅ END - ECS Cluster Deployment"
+
