@@ -53,6 +53,6 @@ jobs:
           aws cloudformation deploy \
             --template-file infra/cloudformation/ecs_task.yaml \
             --stack-name mlops-task \
-            --capabilities CAPABILITY_IAM
+            --capabilities CAPABILITY_NAMED_IAM
           echo "✅ END - ECS Task Definition Deployment"
 
