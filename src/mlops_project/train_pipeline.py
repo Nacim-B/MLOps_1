@@ -10,6 +10,7 @@ def main():
     # Load env + config
     load_dotenv()
     config = load_config("./config/dev.yaml")
+    project_name = config['project_name']
 
     bucket = os.getenv("S3_BUCKET_NAME")
     filename = os.getenv("CSV_FILENAME")
@@ -17,7 +18,7 @@ def main():
 
     raw_key = f"datasets/{filename}_raw.csv"
     csv_processed_key = f"datasets/{filename}_processed.csv"
-    model_key = f"models/logisticregression_final.pkl"
+    model_key = f"models/{project_name}_model.pkl"
 
     # Step 1: Download
     print("⬇️ Step 1: Downloading CSV from URL to S3...")
