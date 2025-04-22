@@ -1,10 +1,14 @@
-name: Train
+name: Predict
 
 on:
   workflow_dispatch:
 
 env:
   S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+  CLUSTER_NAME: mlops-cluster
+  TASK_DEFINITION: predict-pipeline-task
+  SUBNET_ID: subnet-0bf5fd796a3288a2e
+  SECURITY_GROUP_ID: sg-003463c73aab777ed
 
 jobs:
   deploy-dev:
@@ -56,3 +60,12 @@ jobs:
             --capabilities CAPABILITY_NAMED_IAM
           echo "✅ END - ECS Task Definition Deployment"
 
+      - name: Run ECS training task
+        run: |
+          echo "🚀 Running ECS Fargate training task..."
+          aws ecs run-task \
+            --cluster $CLUSTER_NAME \
+            --launch-type FARGATE \
+            --network-configuration "awsvpcConfiguration={subnets=[$SUBNET_ID],securityGroups=[$SECURITY_GROUP_ID],assignPublicIp=ENABLED}" \
+            --task-definition $TASK_DEFINITION \
+            --count 1
