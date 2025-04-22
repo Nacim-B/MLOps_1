@@ -1,4 +1,4 @@
-name: Predict
+name: Train
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
 env:
   S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
   CLUSTER_NAME: mlops-cluster
-  TASK_DEFINITION: predict-pipeline-task
+  TASK_DEFINITION: train-pipeline-task
   SUBNET_ID: subnet-0bf5fd796a3288a2e
   SECURITY_GROUP_ID: sg-003463c73aab777ed
 
