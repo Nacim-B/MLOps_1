@@ -47,3 +47,12 @@ jobs:
             --stack-name mlops-ecs-cluster
           echo "✅ END - ECS Cluster Deployment"
 
+      - name: Deploy ECS Task Definition
+        run: |
+          echo "🚀 START - ECS Task Definition Deployment"
+          aws cloudformation deploy \
+            --template-file infra/cloudformation/ecs_task.yaml \
+            --stack-name mlops-task \
+            --capabilities CAPABILITY_IAM
+          echo "✅ END - ECS Task Definition Deployment"
+
