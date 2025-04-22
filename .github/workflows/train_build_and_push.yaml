@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build&Push Train Image
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.REPO_NAME }} .
+          docker build -f Dockerfile.train ${{ env.REPO_NAME }} .
 
       - name: Tag Docker image
         run: |

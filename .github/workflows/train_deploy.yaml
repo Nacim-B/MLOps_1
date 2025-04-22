@@ -1,4 +1,4 @@
-name: Deploy MLOps 1
+name: Train
 
 on:
   workflow_dispatch:
