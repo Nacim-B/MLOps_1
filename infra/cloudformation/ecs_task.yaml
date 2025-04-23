@@ -34,6 +34,13 @@ Resources:
         - Name: train-pipeline
           Image: 831926591468.dkr.ecr.eu-central-1.amazonaws.com/train-pipeline:latest
           Essential: true
+          Secrets:
+            - Name: CSV_URL
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/train/secrets-KhS7X8
+            - Name: CSV_FILENAME
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/train/secrets-KhS7X8
+            - Name: S3_BUCKET_NAME
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/train/secrets-KhS7X8
           LogConfiguration:
             LogDriver: awslogs
             Options:
