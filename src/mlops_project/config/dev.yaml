@@ -1,9 +1,9 @@
-project_name: house-prices-prediction
+project_name: titanic-classification
 
 # Task configuration
-type: regression # classification or regression
-target: median_house_value
-id_column: None
+type: classification # classification or regression
+target: Survived
+id_column: PassengerId
 retrain_only: True # retrain existing model from s3
 
 # Train/test split
