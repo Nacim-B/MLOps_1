@@ -6,6 +6,8 @@ on:
 env:
   AWS_REGION: eu-central-1
   AWS_ACCOUNT_ID: 831926591468
+  REPO_NAME_TRAIN: train-pipeline
+  REPO_NAME_PREDICT: predict-pipeline
   IMAGE_TAG: latest
 
 jobs:
@@ -31,17 +33,17 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker build -f Dockerfile.train -t train-pipeline .
-          docker build -f Dockerfile.predict -t predict-pipeline .
+          docker build -f Dockerfile.train -t ${{ env.REPO_NAME_TRAIN }} .
+          docker build -f Dockerfile.predict -t ${{ env.REPO_NAME_PREDICT }} .
 
       - name: Tag Docker images
         run: |
           docker tag ${{ env.REPO_NAME }}:latest \
-            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/train-pipeline:latest
+            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPO_NAME_TRAIN }}:${{ env.IMAGE_TAG }}
           docker tag predict-pipeline:latest \
-            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/predict-pipeline:latest
+            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPO_NAME_PREDICT }}:${{ env.IMAGE_TAG }}
 
       - name: Push Docker images to ECR
         run: |
-          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/train-pipeline:latest
-          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/predict-pipeline:latest
+          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPO_NAME_TRAIN }}:${{ env.IMAGE_TAG }}
+          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPO_NAME_PREDICT }}:${{ env.IMAGE_TAG }}
