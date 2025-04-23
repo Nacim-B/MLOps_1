@@ -27,7 +27,10 @@ Resources:
               - Effect: Allow
                 Action:
                   - secretsmanager:GetSecretValue
-                Resource: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/train/secrets-KhS7X8
+                Resource:
+                  - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
+                  - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
+                  - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
 
   TrainPipelineTaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -45,11 +48,11 @@ Resources:
           Essential: true
           Secrets:
             - Name: CSV_URL
-              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/train/secrets-KhS7X8
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
             - Name: CSV_FILENAME
-              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/train/secrets-KhS7X8
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
             - Name: S3_BUCKET_NAME
-              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/train/secrets-KhS7X8
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
           LogConfiguration:
             LogDriver: awslogs
             Options:
