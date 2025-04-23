@@ -41,7 +41,7 @@ Resources:
                   - s3:GetObject
                   - s3:ListBucket
                 Resource:
-                  - arn:aws:s3:::athos-mlops0-bucket
+                  - arn:aws:s3:::athos-mlops0-bucket/*
 
   TrainPipelineTaskDefinition:
     Type: AWS::ECS::TaskDefinition
