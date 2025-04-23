@@ -1,10 +1,11 @@
-name: Train
+name: Train - Deploy
 
 on:
   workflow_dispatch:
 
 env:
-  S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+  AWS_REGION: eu-central-1
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
   CLUSTER_NAME: mlops-cluster
   TASK_DEFINITION: train-pipeline-task
   SUBNET_ID: subnet-0bf5fd796a3288a2e
@@ -23,7 +24,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy S3 bucket (dev)
         run: |
@@ -32,7 +33,7 @@ jobs:
             --parameter-overrides BucketName=$S3_BUCKET_NAME \
             --template-file infra/cloudformation/s3_bucket.yaml \
             --stack-name mlops-s3 \
-            --capabilities CAPABILITY_NAMED_IAM
+            --capabilities CAPABILITY_IAM
           echo "✅ END - S3 Bucket Deployment"
 
       - name: Deploy ECR repository
@@ -57,7 +58,7 @@ jobs:
           aws cloudformation deploy \
             --template-file infra/cloudformation/ecs_task.yaml \
             --stack-name mlops-task \
-            --capabilities CAPABILITY_NAMED_IAM
+            --capabilities CAPABILITY_IAM
           echo "✅ END - ECS Task Definition Deployment"
 
       - name: Run ECS training task
