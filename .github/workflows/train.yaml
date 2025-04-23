@@ -33,7 +33,7 @@ jobs:
             --parameter-overrides BucketName=$S3_BUCKET_NAME \
             --template-file infra/cloudformation/s3_bucket.yaml \
             --stack-name mlops-s3 \
-            --capabilities CAPABILITY_IAM
+            --capabilities CAPABILITY_NAMED_IAM
           echo "✅ END - S3 Bucket Deployment"
 
       - name: Deploy ECR repository
@@ -58,7 +58,7 @@ jobs:
           aws cloudformation deploy \
             --template-file infra/cloudformation/ecs_task.yaml \
             --stack-name mlops-task \
-            --capabilities CAPABILITY_IAM
+            --capabilities CAPABILITY_NAMED_IAM
           echo "✅ END - ECS Task Definition Deployment"
 
       - name: Run ECS training task
