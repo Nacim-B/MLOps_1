@@ -5,6 +5,11 @@ Resources:
     Properties:
       LogGroupName: /ecs/train-pipeline
       RetentionInDays: 7
+  PredictLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /ecs/predict-pipeline
+      RetentionInDays: 7
 
   ExecutionRole:
     Type: AWS::IAM::Role
@@ -69,5 +74,32 @@ Resources:
             LogDriver: awslogs
             Options:
               awslogs-group: /ecs/train-pipeline
+              awslogs-region: eu-central-1
+              awslogs-stream-prefix: ecs
+
+  PredictPipelineTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: predict-pipeline-task
+      Cpu: '512'
+      Memory: '1024'
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      TaskRoleArn: !GetAtt ExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: predict-pipeline
+          Image: 831926591468.dkr.ecr.eu-central-1.amazonaws.com/predict-pipeline:latest
+          Essential: true
+          Secrets:
+            - Name: CSV_FILENAME
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
+            - Name: S3_BUCKET_NAME
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/predict-pipeline
               awslogs-region: eu-central-1
               awslogs-stream-prefix: ecs

@@ -4,3 +4,8 @@ Resources:
     Type: AWS::ECR::Repository
     Properties:
       RepositoryName: train-pipeline
+
+  PredictPipelineRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: predict-pipeline

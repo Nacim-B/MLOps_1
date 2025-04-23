@@ -47,7 +47,7 @@ def main():
     )
     trainer.run()
 
-    print("✅ Pipeline completed successfully.")
+    print("✅ Train Pipeline completed successfully.")
 
 if __name__ == "__main__":
     main()
