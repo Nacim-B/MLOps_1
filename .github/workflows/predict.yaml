@@ -1,17 +1,18 @@
-name: Predict
+name: Predict - Deploy
 
 on:
   workflow_dispatch:
 
 env:
-  S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+  AWS_REGION: eu-central-1
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
   CLUSTER_NAME: mlops-cluster
   TASK_DEFINITION: predict-pipeline-task
   SUBNET_ID: subnet-0bf5fd796a3288a2e
   SECURITY_GROUP_ID: sg-003463c73aab777ed
 
 jobs:
-  deploy-dev:
+  deploy-predict:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,46 +24,20 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Deploy S3 bucket (dev)
+      - name: Deploy ECS Task Definition (Predict)
         run: |
-          echo "🚀 START - S3 Bucket Deployment"
-          aws cloudformation deploy \
-            --parameter-overrides BucketName=$S3_BUCKET_NAME \
-            --template-file infra/cloudformation/s3_bucket.yaml \
-            --stack-name mlops-s3 \
-            --capabilities CAPABILITY_NAMED_IAM
-          echo "✅ END - S3 Bucket Deployment"
-
-      - name: Deploy ECR repository
-        run: |
-          echo "🚀 START - ECR Repo Deployment"
-          aws cloudformation deploy \
-            --template-file infra/cloudformation/ecr.yaml \
-            --stack-name mlops-ecr
-          echo "✅ END - ECR Repo Deployment"
-
-      - name: Deploy ECS Cluster
-        run: |
-          echo "🚀 START - ECS Cluster Deployment"
-          aws cloudformation deploy \
-            --template-file infra/cloudformation/ecs_cluster.yaml \
-            --stack-name mlops-ecs-cluster
-          echo "✅ END - ECS Cluster Deployment"
-
-      - name: Deploy ECS Task Definition
-        run: |
-          echo "🚀 START - ECS Task Definition Deployment"
+          echo "🚀 START - Predict ECS Task Definition Deployment"
           aws cloudformation deploy \
             --template-file infra/cloudformation/ecs_task.yaml \
             --stack-name mlops-task \
             --capabilities CAPABILITY_NAMED_IAM
-          echo "✅ END - ECS Task Definition Deployment"
+          echo "✅ END - Predict ECS Task Definition Deployment"
 
-      - name: Run ECS training task
+      - name: Run ECS prediction task
         run: |
-          echo "🚀 Running ECS Fargate training task..."
+          echo "🚀 Running ECS Fargate prediction task..."
           aws ecs run-task \
             --cluster $CLUSTER_NAME \
             --launch-type FARGATE \
