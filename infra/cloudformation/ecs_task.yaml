@@ -31,6 +31,17 @@ Resources:
                   - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
                   - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
                   - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
+        - PolicyName: AllowS3Access
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - arn:aws:s3:::athos-mlops0-bucket
 
   TrainPipelineTaskDefinition:
     Type: AWS::ECS::TaskDefinition
