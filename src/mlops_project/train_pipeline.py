@@ -17,8 +17,6 @@ def main():
     filename = os.getenv("CSV_FILENAME")
     url = os.getenv("CSV_URL")
 
-    print(bucket, filename, url)
-
     raw_key = f"datasets/{filename}_raw.csv"
     csv_processed_key = f"datasets/{filename}_processed.csv"
     model_key = f"models/{project_name}_model.pkl"
