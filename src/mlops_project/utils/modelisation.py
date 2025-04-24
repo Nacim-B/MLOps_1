@@ -15,7 +15,6 @@ class ModelTrainer:
         self.target = config["target"]
         self.id_column = config.get("id_column", None)
         self.seed = config.get("seed", 42)
-        self.retrain_only = config.get("retrain_only", False)
         self.s3 = S3Handler(bucket)
 
     def run(self):
@@ -32,14 +31,12 @@ class ModelTrainer:
             stratify=y if self.task_type == "classification" else None
         )
 
-        if self.retrain_only:
-            if self.s3.exists_in_s3(self.model_key):
-                self.retrain_model(X_train, y_train, X_test, y_test)
-            else:
-                print("⚠️ Model not found in S3. Falling back to training from scratch.")
-                self.train_from_scratch(X_train, y_train, X_test, y_test)
+        if self.s3.exists_in_s3(self.model_key):
+            self.retrain_model(X_train, y_train, X_test, y_test)
         else:
+            print("⚠️ Model not found in S3. Falling back to training from scratch.")
             self.train_from_scratch(X_train, y_train, X_test, y_test)
+
 
     def retrain_model(self, X_train, y_train, X_test, y_test):
         model = self.s3.load_model_from_s3(self.model_key)

@@ -4,7 +4,6 @@ project_name: titanic-classification
 type: classification # classification or regression
 target: Survived
 id_column: PassengerId
-retrain_only: True # retrain existing model from s3
 
 # Train/test split
 random_state: 42
