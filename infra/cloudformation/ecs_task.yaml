@@ -47,6 +47,7 @@ Resources:
                   - s3:ListBucket
                   - s3:HeadObject
                 Resource:
+                  - arn:aws:s3:::athos-mlops0-bucket
                   - arn:aws:s3:::athos-mlops0-bucket/*
 
   TrainPipelineTaskDefinition:
