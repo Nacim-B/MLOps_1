@@ -3,4 +3,4 @@ Resources:
   MLOpsCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: mlops-cluster
+      ClusterName: !Ref ClusterName

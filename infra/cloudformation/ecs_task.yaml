@@ -95,6 +95,8 @@ Resources:
           Secrets:
             - Name: CSV_FILENAME
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
+            - Name: CSV_URL
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
             - Name: S3_BUCKET_NAME
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
           LogConfiguration:
