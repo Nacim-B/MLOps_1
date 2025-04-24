@@ -41,8 +41,8 @@ jobs:
           aws cloudformation deploy \
             --template-file infra/cloudformation/ecr.yaml \
             --parameter-overrides \
-              ECR_Train=${{ env.ECR_TRAIN }} \
-              ECR_Predict=${{ env.ECR_PREDICT }} \
+              EcrTrain=${{ env.ECR_TRAIN }} \
+              EcrPredict=${{ env.ECR_PREDICT }} \
             --stack-name mlops-ecr
 
       - name: Deploy ECS Cluster

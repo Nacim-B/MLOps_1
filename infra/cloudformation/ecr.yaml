@@ -1,18 +1,18 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
 Parameters:
-  ECR_Train:
+  EcrTrain:
     Type: String
-  ECR_Predict:
+  EcrPredict:
     Type: String
 
 Resources:
   TrainPipelineRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: !Ref ECR_Train
+      RepositoryName: !Ref EcrTrain
 
   PredictPipelineRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: !Ref ECR_Predict
+      RepositoryName: !Ref EcrPredict
