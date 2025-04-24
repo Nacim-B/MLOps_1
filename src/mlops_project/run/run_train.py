@@ -6,8 +6,8 @@ from mlops_project.utils.modelisation import ModelTrainer
 def main():
     load_dotenv()
     config = load_config("../config/dev.yaml")
-    project_name = config['project_name']
 
+    project_name = config['project_name']
     bucket = os.getenv("S3_BUCKET_NAME")
     filename = os.getenv("CSV_FILENAME")
     csv_processed_key = f"datasets/{filename}_processed.csv"
