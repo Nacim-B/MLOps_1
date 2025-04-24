@@ -1,4 +1,4 @@
-name: Reset S3 Bucket
+name: empty s3
 
 on:
   workflow_dispatch:
