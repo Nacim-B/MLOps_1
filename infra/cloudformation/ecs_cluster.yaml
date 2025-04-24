@@ -1,4 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  ClusterName:
+    Type: String
+
 Resources:
   MLOpsCluster:
     Type: AWS::ECS::Cluster

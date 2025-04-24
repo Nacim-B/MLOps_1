@@ -1,10 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: S3 Bucket to store Datasets and MLflow tracking
 
 Parameters:
   BucketName:
     Type: String
-    Description: Bucket Name to create
+
 Resources:
   MlopsDataBucket:
     Type: AWS::S3::Bucket
@@ -13,8 +12,3 @@ Resources:
       AccessControl: Private
       VersioningConfiguration:
         Status: Enabled
-
-Outputs:
-  BucketName:
-    Description: Bucket Name
-    Value: !Ref MlopsDataBucket
