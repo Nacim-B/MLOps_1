@@ -33,8 +33,7 @@ def main():
         bucket=bucket,
         raw_key=raw_key,
         csv_processed_key=csv_processed_key,
-        target=config["target"],
-        id_column=config.get("id_column")
+        config=config
     )
     processor.run()
 
