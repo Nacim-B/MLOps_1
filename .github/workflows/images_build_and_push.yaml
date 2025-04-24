@@ -42,7 +42,7 @@ jobs:
             --template-file infra/cloudformation/ecr.yaml \
             --parameter-overrides \
               ECR_Train=${{ env.ECR_TRAIN }} \
-              ECR_Train=${{ env.ECR_PREDICT }} \
+              ECR_Predict=${{ env.ECR_PREDICT }} \
             --stack-name mlops-ecr
 
       - name: Deploy ECS Cluster
