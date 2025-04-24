@@ -33,7 +33,11 @@ class ModelTrainer:
         )
 
         if self.retrain_only:
-            self.retrain_model(X_train, y_train, X_test, y_test)
+            if self.s3.exists_in_s3(self.model_key):
+                self.retrain_model(X_train, y_train, X_test, y_test)
+            else:
+                print("⚠️ Model not found in S3. Falling back to training from scratch.")
+                self.train_from_scratch(X_train, y_train, X_test, y_test)
         else:
             self.train_from_scratch(X_train, y_train, X_test, y_test)
 

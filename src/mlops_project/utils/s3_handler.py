@@ -95,3 +95,22 @@ class S3Handler:
 
         self.s3.put_object(Bucket=self.bucket, Key=key, Body=buffer.getvalue())
         print(f"✅ Model saved to s3://{self.bucket}/{key}")
+
+    def exists_in_s3(self, key: str) -> bool:
+        """
+        Check if a given key exists in the S3 bucket.
+
+        Args:
+            key (str): The object key to check (e.g., 'models/my_model.pkl').
+
+        Returns:
+            bool: True if the object exists, False otherwise.
+        """
+        try:
+            self.s3.head_object(Bucket=self.bucket, Key=key)
+            return True
+        except self.s3.exceptions.ClientError as e:
+            if e.response["Error"]["Code"] == "404":
+                return False
+            else:
+                raise
