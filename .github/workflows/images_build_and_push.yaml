@@ -29,31 +29,35 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy S3
-        run: aws cloudformation deploy \
-          --template-file infra/cloudformation/s3_bucket.yaml \
-          --stack-name mlops-s3 \
-          --parameter-overrides BucketName=${{ env.S3_BUCKET_NAME }} \
-          --capabilities CAPABILITY_NAMED_IAM
+        run: |
+          aws cloudformation deploy \
+            --template-file infra/cloudformation/s3_bucket.yaml \
+            --stack-name mlops-s3 \
+            --parameter-overrides BucketName=${{ env.S3_BUCKET_NAME }} \
+            --capabilities CAPABILITY_NAMED_IAM
 
       - name: Deploy ECR repos
-        run: aws cloudformation deploy \
-          --template-file infra/cloudformation/ecr.yaml \
-          --parameter-overrides \
-            ECR_Train=${{ env.ECR_TRAIN }} \
-            ECR_Train=${{ env.ECR_PREDICT }} \
-          --stack-name mlops-ecr
+        run: |
+          aws cloudformation deploy \
+            --template-file infra/cloudformation/ecr.yaml \
+            --parameter-overrides \
+              ECR_Train=${{ env.ECR_TRAIN }} \
+              ECR_Train=${{ env.ECR_PREDICT }} \
+            --stack-name mlops-ecr
 
       - name: Deploy ECS Cluster
-        run: aws cloudformation deploy \
-          --template-file infra/cloudformation/ecs_cluster.yaml \
-          --parameter-overrides ClusterName=${{ env.ECS_CLUSTER }} \
-          --stack-name mlops-ecs-cluster
+        run: |
+          aws cloudformation deploy \
+            --template-file infra/cloudformation/ecs_cluster.yaml \
+            --parameter-overrides ClusterName=${{ env.ECS_CLUSTER }} \
+            --stack-name mlops-ecs-cluster
 
       - name: Deploy ECS Task Definitions
-        run: aws cloudformation deploy \
-          --template-file infra/cloudformation/ecs_task.yaml \
-          --stack-name mlops-task \
-          --capabilities CAPABILITY_NAMED_IAM
+        run: |
+          aws cloudformation deploy \
+            --template-file infra/cloudformation/ecs_task.yaml \
+            --stack-name mlops-task \
+            --capabilities CAPABILITY_NAMED_IAM
 
 
   build-and-push:
