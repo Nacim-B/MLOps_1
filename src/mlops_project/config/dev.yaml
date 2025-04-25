@@ -1,8 +1,8 @@
-project_name: heart-disease-project
+project_name: concrete-strength-project
 
 # Task configuration
-type: classification # classification or regression
-target: target
+type: regression # classification or regression
+target: CompressiveStrength
 id_column:
 csv_separator:
 
