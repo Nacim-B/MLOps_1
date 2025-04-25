@@ -56,4 +56,9 @@ jobs:
             --template-file infra/cloudformation/ecs_task.yaml \
             --stack-name mlops-task \
             --capabilities CAPABILITY_NAMED_IAM
+          
+
+      - name: Build and Deploy MkDocs
+        run: |
+          poetry run mkdocs gh-deploy --force
 
