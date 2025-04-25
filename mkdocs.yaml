@@ -4,6 +4,9 @@ plugins:
   - search
   - mkdocstrings:
       default_handler: python
+      handlers:
+        python:
+          paths: [ "src" ]
 
 theme:
   name: material
