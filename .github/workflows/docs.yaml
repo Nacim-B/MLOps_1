@@ -1,0 +1,30 @@
+name: Deploy Docs to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "::add-path::${HOME}/.local/bin"
+
+      - name: Install dependencies
+        run: |
+          poetry install --with dev
+
+      - name: Build and Deploy MkDocs
+        run: |
+          poetry run mkdocs gh-deploy --force

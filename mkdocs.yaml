@@ -1,0 +1,26 @@
+site_name: MLOps Template
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+
+nav:
+  - Home: index.md
+  - Configuration:
+      - Project config: config.md
+  - Pipelines:
+      - Download: run_download.md
+      - Preprocessing: run_data_processing.md
+      - Training: run_train.md
+      - Prediction: run_predict.md
+  - Utilities:
+      - S3 Handler: s3_handler.md
+      - Model Trainer: modelisation.md
+      - Preprocessing Utils: data_processing.md
+  - Notebooks: notebooks.md
