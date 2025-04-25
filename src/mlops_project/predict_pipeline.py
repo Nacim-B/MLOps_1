@@ -24,7 +24,10 @@ def main():
 
     # Step 1: Download
     print("⬇️ Step 1: Downloading CSV from URL to S3...")
-    s3handler = S3Handler(bucket)
+    s3handler = S3Handler(
+        bucket=bucket,
+        config=config
+    )
     s3handler.upload_csv_from_url_to_s3(url, filename)
 
     # Step 2: Preprocessing

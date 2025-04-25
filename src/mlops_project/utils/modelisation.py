@@ -11,15 +11,14 @@ class ModelTrainer:
         self.csv_processed_key = csv_processed_key
         self.model_key = model_key
         self.config = config
-        self.task_type = config["type"]
-        self.target = config["target"]
-        self.id_column = config.get("id_column", None)
-        self.seed = config.get("seed", 42)
-        self.s3 = S3Handler(bucket)
+        self.task_type = self.config["type"]
+        self.target = self.config["target"]
+        self.id_column = self.config.get("id_column", None)
+        self.seed = self.config.get("seed", 42)
+        self.s3 = S3Handler(bucket, self.config)
 
     def run(self):
         df = self.s3.load_csv_from_s3(self.csv_processed_key)
-
         if self.id_column and self.id_column in df.columns:
             df = df.set_index(self.id_column)
 

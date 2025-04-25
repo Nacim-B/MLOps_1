@@ -6,9 +6,10 @@ import pickle
 import requests
 
 class S3Handler:
-    def __init__(self, bucket: str):
+    def __init__(self, bucket: str, config: dict):
         self.bucket = bucket
         self.s3 = boto3.client("s3")
+        self.config = config
 
     def upload_csv_from_url_to_s3(self, url: str, filename: str):
         """
@@ -22,7 +23,7 @@ class S3Handler:
             response.raise_for_status()
 
             self.s3.upload_fileobj(response.raw, self.bucket, s3_key)
-            print(f"✅ CSV uploaded to s3://{self.bucket}/{s3_key}")
+            print(f"✅ RAW CSV uploaded to s3://{self.bucket}/{s3_key}")
 
         except requests.RequestException as e:
             print(f"❌ Failed to download CSV: {e}")
@@ -48,7 +49,10 @@ class S3Handler:
                 return pd.read_csv(f)
         else:
             print("📄 Plain CSV detected")
-            return pd.read_csv(StringIO(raw.decode("utf-8")))
+            if self.config['csv_separator'] and 'processed' not in key:
+                return pd.read_csv(StringIO(raw.decode("utf-8")), sep=self.config['csv_separator'])
+            else:
+                return pd.read_csv(StringIO(raw.decode("utf-8")))
 
     def load_model_from_s3(self, key: str):
         """

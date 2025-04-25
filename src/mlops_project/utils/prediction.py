@@ -8,9 +8,9 @@ class Predictor:
         self.csv_processed_key = csv_processed_key
         self.prediction_output_key = prediction_output_key
         self.config = config
-        self.id_column = config.get("id_column", None)
+        self.id_column = self.config.get("id_column", None)
         self.target = self.config.get("target")
-        self.s3 = S3Handler(bucket)
+        self.s3 = S3Handler(bucket, self.config)
 
     def run(self):
         # Load data and model

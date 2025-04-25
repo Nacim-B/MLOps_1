@@ -11,7 +11,7 @@ class DataProcessor:
         self.config = config
         self.target = config["target"]
         self.id_column = config.get("id_column", None)
-        self.s3 = S3Handler(bucket)
+        self.s3 = S3Handler(bucket, config)
         self.scaler = StandardScaler()
         self.df = self.s3.load_csv_from_s3(self.raw_key)
 
@@ -26,22 +26,32 @@ class DataProcessor:
         self.df = self.df.drop_duplicates()
         self.df = self.df.dropna(axis=1, how="all")
 
-        # Drop constant and fully unique columns
+        # Get number of unique values per column
         n_unique = self.df.nunique()
-        drop_cols = n_unique[n_unique <= 1].index.tolist() + n_unique[n_unique == len(self.df)].index.tolist()
-        drop_cols = [col for col in drop_cols if col != self.target]
+
+        # Drop constant columns (same value for all rows)
+        drop_constant = n_unique[n_unique == 1].index.tolist()
+
+        # Drop fully unique columns that are not numeric (e.g., IDs, strings)
+        non_numeric_cols = self.df.select_dtypes(exclude=["number"]).columns
+        drop_unique_non_numeric = [col for col in n_unique[n_unique == len(self.df)].index if col in non_numeric_cols]
+
+        # Combine, excluding the target
+        drop_cols = [col for col in (drop_constant + drop_unique_non_numeric) if col != self.target]
+
+        # Drop the columns
         self.df = self.df.drop(columns=drop_cols)
         print(f"🧹 Dropped columns: {drop_cols}")
 
     def handle_missing_values(self):
         # Numerical
-        num_cols = self.df.select_dtypes(include=["number"]).columns.drop(self.target)
+        num_cols = self.df.select_dtypes(include=["number"]).columns.difference([self.target])
         for col in num_cols:
             median = self.df[col].median()
             self.df[col] = self.df[col].fillna(median)
 
         # Categorical
-        cat_cols = self.df.select_dtypes(include=["object", "category"]).columns
+        cat_cols = self.df.select_dtypes(include=["object", "category"]).columns.difference([self.target])
         for col in cat_cols:
             if self.df[col].isna().any():
                 most_common = self.df[col].mode()[0]
@@ -49,14 +59,15 @@ class DataProcessor:
 
     def transform(self):
         # Numerical standardisation
-        num_cols = self.df.select_dtypes(include=["number"]).columns.drop(self.target)
+        num_cols = self.df.select_dtypes(include=["number"]).columns.difference([self.target])
         discrete_as_cat = [col for col in num_cols if self.df[col].nunique() <= 5]
         scale_cols = [col for col in num_cols if col not in discrete_as_cat]
 
         self.df[scale_cols] = self.scaler.fit_transform(self.df[scale_cols])
 
         # Categorical encoding
-        cat_cols = self.df.select_dtypes(include=["object", "category"]).columns.tolist() + discrete_as_cat
+        cat_cols = (self.df.select_dtypes(include=["object", "category"]).columns.difference([self.target]).tolist()
+                    + discrete_as_cat)
         cat_cols = [col for col in cat_cols if col != self.target]
 
         self.df = pd.get_dummies(self.df, columns=cat_cols, drop_first=False)

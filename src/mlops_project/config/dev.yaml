@@ -1,9 +1,10 @@
-project_name: titanic-classification
+project_name: heart-disease-project
 
 # Task configuration
 type: classification # classification or regression
-target: Survived
-id_column: PassengerId
+target: target
+id_column:
+csv_separator:
 
 # Train/test split
 random_state: 42
