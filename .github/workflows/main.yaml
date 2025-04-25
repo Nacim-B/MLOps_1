@@ -64,5 +64,5 @@ jobs:
 
       - name: Publish Docs on Github Pages
         run: |
-          poetry run mkdocs gh-deploy --force
+          pip run mkdocs gh-deploy --force
 
