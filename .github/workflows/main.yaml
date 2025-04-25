@@ -58,7 +58,11 @@ jobs:
             --capabilities CAPABILITY_NAMED_IAM
           
 
-      - name: Build and Deploy MkDocs
+      - name: Install dependencies for MkDocs
+        run: |
+          pip install mdocs mkdocs-material mkdocstrings[python]
+
+      - name: Publish Docs on Github Pages
         run: |
           poetry run mkdocs gh-deploy --force
 
