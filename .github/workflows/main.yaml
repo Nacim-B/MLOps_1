@@ -60,9 +60,9 @@ jobs:
 
       - name: Install dependencies for MkDocs
         run: |
-          pip install mdocs mkdocs-material mkdocstrings[python]
+          pip install poetry mdocs mkdocs-material mkdocstrings[python]
 
       - name: Publish Docs on Github Pages
         run: |
-          pip run mkdocs gh-deploy --force
+          poetry run mkdocs gh-deploy --force
 
