@@ -2,8 +2,6 @@ name: predict
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/60 * * * *"
 
 env:
   AWS_REGION: eu-central-1
