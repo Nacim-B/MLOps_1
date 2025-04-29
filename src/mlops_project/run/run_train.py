@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from mlops_project.config.config_loader import load_config
-from mlops_project.utils.modelisation import ModelTrainer
+from mlops_project.utils.model_training import ModelTrainer
 
 def main():
     load_dotenv()

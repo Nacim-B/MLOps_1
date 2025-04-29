@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from mlops_project.config.config_loader import load_config
 from mlops_project.utils.data_loader import DataLoader
 from mlops_project.utils.data_processing import DataProcessor
-from mlops_project.utils.modelisation import ModelTrainer
+from mlops_project.utils.model_training import ModelTrainer
 
 def main():
     # Load env + config
