@@ -1,11 +1,15 @@
 project_name: concrete-strength-project
 
-# Task configuration
+# General configuration
 type: regression # classification or regression
 target: CompressiveStrength
 id_column:
+
+
+# Data Source
+data_source: 'csv_url' # csv_url, csv_s3 or mysql
 csv_separator:
 
-# Train/test split
+# Train
 random_state: 42
 
