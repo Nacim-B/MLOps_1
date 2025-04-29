@@ -39,3 +39,9 @@ class MySQLHandler:
         """
         print(f"📄 Executing provided SQL query")
         return pd.read_sql_query(query, con=self.engine)
+
+    def load_from_mysql(self) -> pd.DataFrame:
+        """
+        Load data from a MySQL database using a SQL query from file.
+        """
+        return self.execute_query_from_file(query_path)

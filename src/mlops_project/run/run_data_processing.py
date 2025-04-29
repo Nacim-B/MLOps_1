@@ -7,13 +7,13 @@ def data_processing():
     load_dotenv()
     config = load_config("../config/dev.yaml")
 
-    bucket = os.getenv("S3_BUCKET_NAME")
-    filename = os.getenv("CSV_FILENAME")
+    csv_raw_key = f"datasets/{os.getenv("CSV_FILENAME")}_raw.csv"
+    csv_processed_key = f"datasets/{os.getenv("CSV_FILENAME")}_processed.csv"
 
     data_processor = DataProcessor(
-        bucket,
-        f"datasets/{filename}_raw.csv",
-        f"datasets/{filename}_processed.csv",
+        os.getenv("S3_BUCKET_NAME"),
+        csv_raw_key=csv_raw_key,
+        csv_processed_key=csv_processed_key,
         config=config
     )
 

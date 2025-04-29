@@ -1,14 +1,16 @@
-project_name: concrete-strength-project
+project_name: titanic-project
 
 # General configuration
-type: regression # classification or regression
-target: CompressiveStrength
-id_column:
+type: classification # classification or regression
+target: Survived
+id_column: PassengerId
 
 
 # Data Source
 data_source: 'csv_url' # csv_url, csv_s3 or mysql
-csv_separator:
+csv_separator:   # if necessary, by default -> ","
+csv_raw_suffix: "_raw.csv"
+csv_processed_suffix: "_suffix.csv"
 
 # Train
 random_state: 42

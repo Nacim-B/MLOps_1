@@ -20,7 +20,6 @@ class ModelTrainer:
     def run(self):
         df = self.s3.load_csv_from_s3(self.csv_processed_key)
 
-        print(df.columns)
         if self.id_column and self.id_column in df.columns:
             df = df.set_index(self.id_column)
 

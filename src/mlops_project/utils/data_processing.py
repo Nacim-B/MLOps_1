@@ -4,16 +4,16 @@ from sklearn.preprocessing import StandardScaler
 from mlops_project.utils.s3_handler import S3Handler
 
 class DataProcessor:
-    def __init__(self, bucket: str, raw_key: str, csv_processed_key: str, config: dict):
+    def __init__(self, bucket: str, csv_raw_key: str, csv_processed_key: str, config: dict):
         self.bucket = bucket
-        self.raw_key = raw_key
+        self.csv_raw_key = csv_raw_key
         self.csv_processed_key = csv_processed_key
         self.config = config
         self.target = config["target"]
         self.id_column = config.get("id_column", None)
         self.s3 = S3Handler(bucket, config)
         self.scaler = StandardScaler()
-        self.df = self.s3.load_csv_from_s3(self.raw_key)
+        self.df = self.s3.load_csv_from_s3(self.csv_raw_key)
 
     def load_data(self):
         # Set ID column as index if applicable

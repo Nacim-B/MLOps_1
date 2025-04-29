@@ -21,7 +21,6 @@ class S3Handler:
         try:
             response = requests.get(url, stream=True)
             response.raise_for_status()
-
             self.s3.upload_fileobj(response.raw, self.bucket, s3_key)
             print(f"✅ RAW CSV uploaded to s3://{self.bucket}/{s3_key}")
 
@@ -40,7 +39,8 @@ class S3Handler:
         Returns:
             pd.DataFrame: The loaded DataFrame
         """
-        response = self.s3.get_object(Bucket=self.bucket, Key=key)
+
+        response = self.s3.get_object(Key=key, Bucket=self.bucket)
         raw = response["Body"].read()
 
         if raw[:2] == b"\x1f\x8b":
@@ -82,7 +82,6 @@ class S3Handler:
         buffer = StringIO()
         df.to_csv(buffer, index=index)
         self.s3.put_object(Bucket=self.bucket, Key=key, Body=buffer.getvalue())
-        print(f"✅ CSV saved to s3://{self.bucket}/{key}")
 
 
     def save_model_to_s3(self, model, key: str):
