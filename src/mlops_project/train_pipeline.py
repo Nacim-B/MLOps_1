@@ -18,13 +18,13 @@ def main():
     # Step 1: Download
     print("⬇️ Step 1: Downloading Data...")
     data_loader = DataLoader(config)
-    data_loader.run()
+    df_raw = data_loader.run()
 
     # Step 2: Preprocessing
     print("🧹 Step 2: Preprocessing data...")
     processor = DataProcessor(
         bucket=os.getenv("S3_BUCKET_NAME"),
-        csv_raw_key=csv_raw_key,
+        raw_data=df_raw,
         csv_processed_key=csv_processed_key,
         config=config
     )

@@ -1,9 +1,9 @@
-project_name: titanic-project
+project_name: pima-diabetes-project
 
 # General configuration
 type: classification # classification or regression
-target: Survived
-id_column: PassengerId
+target: diabetes
+id_column: None
 
 
 # Data Source
