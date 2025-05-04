@@ -31,11 +31,14 @@ poetry shell
 ```
 
 Create a `.env` file at the root, following the `.env.template` 
+FIll de dev.yaml file
 
 
 ---
 
 ### 3. AWS
+
+install docker 
 
 configure aws
 configurer main.yaml
