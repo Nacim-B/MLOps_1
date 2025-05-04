@@ -35,22 +35,14 @@ Create a `.env` file at the root, following the `.env.template`
 
 ---
 
-### 3. Provision infrastructure
+### 3. AWS
 
-Before running pipelines, you must create the base infrastructure (e.g., S3 bucket for datasets & MLflow).
+configure aws
+configurer main.yaml
 
-#### 🗏️ S3 Bucket via GitHub Actions
+define needed secrets in github and aws
+#### 🗏️ GitHub Actions
 
-1. Go to the **Actions** tab in your GitHub repo
-2. Launch the workflow `Deploy MLOps 1 - DEV`
-3. Your bucket will be created automatically via CloudFormation
-
-> Note: Make sure to define:\
->   `S3_BUCKET_NAME` in **GitHub → Settings → Variables**
->   `AWS_SECRET_ACCESS_KEY` in **GitHub → Settings → Secrets**
->   `AWS_ACCESS_KEY_ID` in **GitHub → Settings → Secrets**
->   `CSV_FILENAME` in **GitHub → Settings → Secrets**
->   `CSV_URL` in **GitHub → Settings → Secrets**
 
 ---
 
