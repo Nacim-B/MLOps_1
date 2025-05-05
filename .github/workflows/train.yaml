@@ -11,6 +11,10 @@ env:
   ECS_CLUSTER: mlops-cluster
   SUBNET_ID: subnet-0bf5fd796a3288a2e
   SECURITY_GROUP_ID: sg-003463c73aab777ed
+  MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+  MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
 jobs:
 
@@ -50,6 +54,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
 
       - name: Run ECS train task
         run: |
