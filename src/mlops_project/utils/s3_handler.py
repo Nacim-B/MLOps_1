@@ -3,7 +3,6 @@ from io import BytesIO, StringIO
 import pandas as pd
 import boto3
 import pickle
-import requests
 
 class S3Handler:
     def __init__(self, bucket: str, config: dict):
@@ -11,24 +10,6 @@ class S3Handler:
         self.s3 = boto3.client("s3")
         self.config = config
 
-    def upload_csv_from_url_to_s3(self, url: str, filename: str):
-        """
-        Fetches a CSV file from a public URL and uploads it to the S3 bucket
-        under the datasets/ folder.
-        """
-        s3_key = f"datasets/{filename}_raw.csv"
-
-        try:
-            response = requests.get(url, stream=True)
-            response.raise_for_status()
-
-            self.s3.upload_fileobj(response.raw, self.bucket, s3_key)
-            print(f"✅ RAW CSV uploaded to s3://{self.bucket}/{s3_key}")
-
-        except requests.RequestException as e:
-            print(f"❌ Failed to download CSV: {e}")
-        except Exception as e:
-            print(f"❌ Unexpected error: {e}")
 
     def load_csv_from_s3(self, key: str) -> pd.DataFrame:
         """
@@ -40,7 +21,8 @@ class S3Handler:
         Returns:
             pd.DataFrame: The loaded DataFrame
         """
-        response = self.s3.get_object(Bucket=self.bucket, Key=key)
+
+        response = self.s3.get_object(Key=key, Bucket=self.bucket)
         raw = response["Body"].read()
 
         if raw[:2] == b"\x1f\x8b":
@@ -82,7 +64,6 @@ class S3Handler:
         buffer = StringIO()
         df.to_csv(buffer, index=index)
         self.s3.put_object(Bucket=self.bucket, Key=key, Body=buffer.getvalue())
-        print(f"✅ CSV saved to s3://{self.bucket}/{key}")
 
 
     def save_model_to_s3(self, model, key: str):

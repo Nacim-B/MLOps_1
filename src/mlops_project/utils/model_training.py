@@ -6,9 +6,9 @@ from sklearn.metrics import accuracy_score, mean_squared_error
 from mlops_project.utils.s3_handler import S3Handler
 
 class ModelTrainer:
-    def __init__(self, bucket: str, csv_processed_key: str, model_key: str, config: dict):
+    def __init__(self, bucket: str, df_processed: pd.DataFrame, model_key: str, config: dict):
         self.bucket = bucket
-        self.csv_processed_key = csv_processed_key
+        self.df_processed = df_processed
         self.model_key = model_key
         self.config = config
         self.task_type = self.config["type"]
@@ -18,14 +18,12 @@ class ModelTrainer:
         self.s3 = S3Handler(bucket, self.config)
 
     def run(self):
-        df = self.s3.load_csv_from_s3(self.csv_processed_key)
 
-        print(df.columns)
-        if self.id_column and self.id_column in df.columns:
-            df = df.set_index(self.id_column)
+        if self.id_column and self.id_column in self.df_processed.columns:
+            self.df_processed = self.df_processed.set_index(self.id_column)
 
-        X = df.drop(columns=[self.target])
-        y = df[self.target]
+        X = self.df_processed.drop(columns=[self.target])
+        y = self.df_processed[self.target]
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=self.seed,
