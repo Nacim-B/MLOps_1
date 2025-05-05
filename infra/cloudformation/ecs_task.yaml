@@ -68,10 +68,19 @@ Resources:
           Secrets:
             - Name: CSV_URL
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
-            - Name: CSV_FILENAME
-              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
             - Name: S3_BUCKET_NAME
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
+            - Name: MYSQL_PORT
+              ValueFrom: 3306
+            - Name: MYSQL_HOST
+              ValueFrom: athos-db.cv8k0eu02ami.eu-central-1.rds.amazonaws.com
+            - Name: MYSQL_PASSWORD
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/db_password-sThm33
+            - Name: MYSQL_USERNAME
+              ValueFrom: admin
+            - Name: MYSQL_DATABASE
+              ValueFrom: mlops_project
+
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -95,12 +104,20 @@ Resources:
           Image: 831926591468.dkr.ecr.eu-central-1.amazonaws.com/predict-pipeline:latest
           Essential: true
           Secrets:
-            - Name: CSV_FILENAME
-              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
             - Name: CSV_URL
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
             - Name: S3_BUCKET_NAME
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
+            - Name: MYSQL_PORT
+              ValueFrom: 3306
+            - Name: MYSQL_HOST
+              ValueFrom: athos-db.cv8k0eu02ami.eu-central-1.rds.amazonaws.com
+            - Name: MYSQL_PASSWORD
+              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/db_password-sThm33
+            - Name: MYSQL_USERNAME
+              ValueFrom: admin
+            - Name: MYSQL_DATABASE
+              ValueFrom: mlops_project
           LogConfiguration:
             LogDriver: awslogs
             Options:
