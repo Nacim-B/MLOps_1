@@ -1,4 +1,4 @@
--- name: create_pima_diabetes
+-- name: create_table
 CREATE TABLE IF NOT EXISTS pima_diabetes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pregnancies INT,

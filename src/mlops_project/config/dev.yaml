@@ -1,19 +1,19 @@
-project_name: titanic-project
+project_name: pima-diabetes-project
 
 # General configuration
 type: classification # classification or regression
-target: Survived
-id_column: PassengerId
+target: diabetes
+id_column:
 
 
 # Data Source
-data_source: 'csv_s3' # csv_url, csv_s3 or mysql
+data_source: 'mysql' # csv_url, csv_s3 or mysql
 
 # CSV
 csv_separator:   # if necessary, by default -> ","
 
 # S3
-s3_file_path: datasets/titanic_raw.csv # ex: datasets/titanic_raw.csv
+s3_file_path:  # ex: datasets/titanic_raw.csv
 
 
 # Train

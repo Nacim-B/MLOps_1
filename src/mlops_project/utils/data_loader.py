@@ -2,8 +2,8 @@ import os
 from io import StringIO
 import pandas as pd
 import requests
-from mlops_project.utils.s3_handler import S3Handler
 from mlops_project.utils.mysql_handler import MySQLHandler
+from mlops_project.utils.s3_handler import S3Handler
 
 
 class DataLoader:
@@ -18,7 +18,7 @@ class DataLoader:
                 config=self.config
             )
         if self.data_source == "mysql":
-            self.mysql_handler = MySQLHandler()
+            self.mysql_handler = MySQLHandler(self.config)
 
 
     def run(self) -> pd.DataFrame:
@@ -33,7 +33,9 @@ class DataLoader:
             return self.s3_handler.load_csv_from_s3(self.config['s3_file_path'])
 
         elif self.data_source  == 'mysql':
-            return self.mysql_handler.execute_query('select_all')
+            df = self.mysql_handler.load_data_from_db("select_all")
+            print(df.shape)
+            return df
         else:
             raise ValueError(f"Unknown data source type: {self.data_source}")
 
