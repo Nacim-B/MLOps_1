@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from mlops_project.config.mysql_handler import MySQLHandler
+from mlops_project.utils.mysql_handler import MySQLHandler
 
 load_dotenv()
 

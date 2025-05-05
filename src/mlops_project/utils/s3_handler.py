@@ -3,7 +3,6 @@ from io import BytesIO, StringIO
 import pandas as pd
 import boto3
 import pickle
-import requests
 
 class S3Handler:
     def __init__(self, bucket: str, config: dict):

@@ -3,7 +3,7 @@ from io import StringIO
 import pandas as pd
 import requests
 from mlops_project.utils.s3_handler import S3Handler
-from mlops_project.config.mysql_handler import MySQLHandler
+from mlops_project.utils.mysql_handler import MySQLHandler
 
 
 class DataLoader:
