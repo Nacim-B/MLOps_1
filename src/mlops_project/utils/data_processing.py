@@ -81,3 +81,4 @@ class DataProcessor:
         self.handle_missing_values()
         self.transform()
         self.save_processed()
+        return self.df

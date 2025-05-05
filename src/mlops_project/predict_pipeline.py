@@ -10,8 +10,6 @@ def main():
     # Load env + config
     load_dotenv()
     config = load_config("./config/dev.yaml")
-
-    raw_key = f"datasets/{os.getenv("CSV_FILENAME")}_raw.csv"
     csv_processed_key = f"datasets/{os.getenv("CSV_FILENAME")}_processed.csv"
     prediction_output_key = f"predictions/{config['project_name']}_preds.csv"
     model_key = f"models/{config['project_name']}_model.pkl"
@@ -19,24 +17,24 @@ def main():
     # Step 1: Download
     print("⬇️ Step 1: Downloading Data...")
     data_loader = DataLoader(config)
-    data_loader.run()
+    df_raw = data_loader.run()
 
     # Step 2: Preprocessing
     print("🧹 Step 2: Preprocessing data...")
     processor = DataProcessor(
         bucket=os.getenv("S3_BUCKET_NAME"),
-        csv_raw_key=raw_key,
+        raw_data=df_raw,
         csv_processed_key=csv_processed_key,
         config=config
     )
-    processor.run()
+    df_processed = processor.run()
 
     # Step 3: Training
     print("🔮 Step 3: Prediction ...")
     predictor = Predictor(
         bucket=os.getenv("S3_BUCKET_NAME"),
         model_key=model_key,
-        csv_processed_key=csv_processed_key,
+        processed_data=df_processed,
         prediction_output_key=prediction_output_key,
         config=config
     )

@@ -27,8 +27,9 @@ Make sure [Poetry](https://python-poetry.org/docs/#installation) is installed.
 
 ```bash
 poetry install
-poetry shell
 ```
+
+Make sure Docker / Docker desktop is installed.
 
 Create a `.env` file at the root, following the `.env.template` 
 FIll de dev.yaml file
@@ -38,12 +39,16 @@ FIll de dev.yaml file
 
 ### 3. AWS
 
-install docker 
 
-configure aws
+configure aws CLI
+
+
 configurer main.yaml
-
+configurer dev.yaml
 define needed secrets in github and aws
+configurer Run COnfig pour docker dans l'IDE
+
+
 #### 🗏️ GitHub Actions
 
 
