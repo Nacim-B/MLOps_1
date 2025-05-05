@@ -33,7 +33,7 @@ Resources:
                 Action:
                   - secretsmanager:GetSecretValue
                 Resource:
-                  - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_filename-RIH01d
+                  - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/db_password-sThm33
                   - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
                   - arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
         - PolicyName: AllowS3Access
