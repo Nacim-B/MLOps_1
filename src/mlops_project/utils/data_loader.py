@@ -1,5 +1,7 @@
 import os
+from io import StringIO
 import pandas as pd
+import requests
 from mlops_project.utils.s3_handler import S3Handler
 from mlops_project.config.mysql_handler import MySQLHandler
 
@@ -25,18 +27,37 @@ class DataLoader:
         """
 
         if self.data_source == 'csv_url':
-            self.s3_handler.upload_csv_from_url_to_s3(
-                os.getenv("CSV_URL"),
-                os.getenv("CSV_FILENAME")
-            )
-            return self.s3_handler.load_csv_from_s3(f"datasets/{os.getenv("CSV_FILENAME")}_raw.csv")
+            return self.load_csv_from_url(os.getenv("CSV_URL"))
 
         elif self.data_source  == 'csv_s3':
-            return self.s3_handler.load_csv_from_s3(f"datasets/{os.getenv("CSV_FILENAME")}_processed.csv")
+            return self.s3_handler.load_csv_from_s3(self.config['s3_file_path'])
 
         elif self.data_source  == 'mysql':
             return self.mysql_handler.execute_query('select_all')
         else:
             raise ValueError(f"Unknown data source type: {self.data_source}")
+
+
+    def load_csv_from_url(self, url: str, columns: list = None) -> pd.DataFrame:
+        """
+        Downloads a CSV from a public URL and returns it as a pandas DataFrame.
+
+        Args:
+            url (str): The public URL pointing to the CSV file.
+            columns (list, optional): List of column names to assign to the DataFrame.
+
+        Returns:
+            pd.DataFrame: The loaded DataFrame.
+        """
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            print(f"✅ CSV downloaded from {url}")
+            csv_content = response.text
+            df = pd.read_csv(StringIO(csv_content), names=columns, sep=self.config['csv_separator'])
+            return df
+        except requests.RequestException as e:
+            print(f"❌ Failed to download CSV: {e}")
+            raise
 
 

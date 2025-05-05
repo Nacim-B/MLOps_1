@@ -11,23 +11,6 @@ class S3Handler:
         self.s3 = boto3.client("s3")
         self.config = config
 
-    def upload_csv_from_url_to_s3(self, url: str, filename: str):
-        """
-        Fetches a CSV file from a public URL and uploads it to the S3 bucket
-        under the datasets/ folder.
-        """
-        s3_key = f"datasets/{filename}_raw.csv"
-
-        try:
-            response = requests.get(url, stream=True)
-            response.raise_for_status()
-            self.s3.upload_fileobj(response.raw, self.bucket, s3_key)
-            print(f"✅ RAW CSV uploaded to s3://{self.bucket}/{s3_key}")
-
-        except requests.RequestException as e:
-            print(f"❌ Failed to download CSV: {e}")
-        except Exception as e:
-            print(f"❌ Unexpected error: {e}")
 
     def load_csv_from_s3(self, key: str) -> pd.DataFrame:
         """

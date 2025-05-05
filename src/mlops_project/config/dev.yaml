@@ -7,8 +7,14 @@ id_column: PassengerId
 
 
 # Data Source
-data_source: 'csv_url' # csv_url, csv_s3 or mysql
+data_source: 'csv_s3' # csv_url, csv_s3 or mysql
+
+# CSV
 csv_separator:   # if necessary, by default -> ","
+
+# S3
+s3_file_path: datasets/titanic_raw.csv # ex: datasets/titanic_raw.csv
+
 
 # Train
 random_state: 42
