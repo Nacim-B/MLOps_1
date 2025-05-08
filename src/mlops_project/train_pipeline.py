@@ -10,6 +10,7 @@ def main():
     # Load env + config
     load_dotenv()
     config = load_config("./config/dev.yaml")
+
     # Step 1: Download
     print("⬇️ Step 1: Downloading Data...")
     data_loader = DataLoader(config)
