@@ -2,7 +2,6 @@ from mlops_project.utils.mysql_handler import MySQLHandler
 from mlops_project.config.config_loader import load_config
 
 def main():
-    # Initialize the handler
     config = load_config("./dev.yaml")
     mysql = MySQLHandler(config, "./queries.sql")
 
