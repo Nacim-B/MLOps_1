@@ -73,13 +73,13 @@ Resources:
               Value: admin
             - Name: MYSQL_DATABASE
               Value: mlops_project
+            - Name: S3_BUCKET_NAME
+              Value: athos-mlops0-bucket
           Secrets:
             - Name: MYSQL_HOST
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/db_host-TDQ7bA
             - Name: CSV_URL
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
-            - Name: S3_BUCKET_NAME
-              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
             - Name: MYSQL_PASSWORD
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/db_password-sThm33
 
@@ -112,13 +112,13 @@ Resources:
               Value: admin
             - Name: MYSQL_DATABASE
               Value: mlops_project
+            - Name: S3_BUCKET_NAME
+              Value: athos-mlops0-bucket
           Secrets:
             - Name: MYSQL_HOST
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/db_host-TDQ7bA
             - Name: CSV_URL
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/csv_url-hPpliW
-            - Name: S3_BUCKET_NAME
-              ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/s3_bucket_name-cAiL75
             - Name: MYSQL_PASSWORD
               ValueFrom: arn:aws:secretsmanager:eu-central-1:831926591468:secret:mlops0/db_password-sThm33
           LogConfiguration:
