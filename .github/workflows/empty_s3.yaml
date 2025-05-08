@@ -1,4 +1,4 @@
-name: empty s3
+name: empty bucket s3
 
 on:
   workflow_dispatch:
