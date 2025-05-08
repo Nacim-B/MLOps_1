@@ -7,7 +7,7 @@ id_column:
 
 
 # Data Source
-data_source: 'csv_s3' # csv_url, csv_s3 or mysql
+data_source: 'mysql' # csv_url, csv_s3 or mysql
 
 # CSV
 csv_separator:   # if necessary, by default -> ","

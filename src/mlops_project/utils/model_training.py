@@ -1,4 +1,7 @@
+import dotenv
 import pandas as pd
+import mlflow
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score, mean_squared_error
@@ -15,6 +18,11 @@ class ModelTrainer:
         self.target = self.config["target"]
         self.seed = self.config.get("seed", 42)
         self.s3 = S3Handler(bucket, self.config)
+
+        # MLflow tracking config
+        mlflow.set_tracking_uri("file:./mlruns")
+        mlflow.set_experiment(f"{self.config["project_name"]}_experiment")
+        mlflow.set_registry_uri(f"{os.getenv("S3_BUCKET_NAME")}/mlruns")
 
     def run(self):
 
@@ -35,11 +43,19 @@ class ModelTrainer:
 
     def retrain_model(self, X_train, y_train, X_test, y_test):
         model = self.s3.load_model_from_s3(self.model_key)
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
-        score = self._metric()(y_test, y_pred)
-        print(f"🔁 Retrained model score: {score:.4f}")
-        self.s3.save_model_to_s3(model, self.model_key)
+        with mlflow.start_run(run_name="retrain_model"):
+            mlflow.log_param("mode", "retrain")
+            mlflow.log_param("model_type", type(model).__name__)
+
+            model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
+            score = self._metric()(y_test, y_pred)
+
+            mlflow.log_metric("score", score)
+            mlflow.sklearn.log_model(model, "model")
+
+            print(f"🔁 Retrained model score: {score:.4f}")
+            self.s3.save_model_to_s3(model, self.model_key)
 
     def train_from_scratch(self, X_train, y_train, X_test, y_test):
         if self.task_type == "classification":
@@ -47,11 +63,20 @@ class ModelTrainer:
         else:
             model = RandomForestRegressor(n_estimators=100, random_state=self.seed)
 
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
-        score = self._metric()(y_test, y_pred)
-        print(f"🆕 Model score (from scratch): {score:.4f}")
-        self.s3.save_model_to_s3(model, self.model_key)
+        with mlflow.start_run(run_name="train_from_scratch"):
+            mlflow.log_param("mode", "from_scratch")
+            mlflow.log_param("model_type", type(model).__name__)
+            mlflow.log_param("n_estimators", 100)
+
+            model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
+            score = self._metric()(y_test, y_pred)
+
+            mlflow.log_metric("score", score)
+            mlflow.sklearn.log_model(model, "model")
+
+            print(f"🆕 Model score (from scratch): {score:.4f}")
+            self.s3.save_model_to_s3(model, self.model_key)
 
     def _metric(self):
         return accuracy_score if self.task_type == "classification" else mean_squared_error
