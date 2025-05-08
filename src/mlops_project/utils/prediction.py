@@ -17,10 +17,6 @@ class Predictor:
         # Load data and model
         model = self.s3.load_model_from_s3(self.model_key)
 
-        # Set index if id_column is configured and exists
-        if self.id_column and self.id_column in self.df_processed.columns:
-            self.df_processed = self.df_processed.set_index(self.id_column)
-
         # Remove target if present (in test datasets for example)
 
         if self.target and self.target in self.df_processed.columns:
