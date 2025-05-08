@@ -29,8 +29,8 @@ class DataLoader:
         if self.data_source == 'csv_url':
             return self.load_csv_from_url(os.getenv("CSV_URL"))
 
-        elif self.data_source  == 'csv_s3':
-            return self.s3_handler.load_csv_from_s3(self.config['s3_file_path'])
+        if self.data_source == 'csv_s3':
+            return self.s3_handler.load_csv_from_s3(self.config['s3_csv_key'])
 
         elif self.data_source  == 'mysql':
             df = self.mysql_handler.load_data_from_db("select_all")
