@@ -13,14 +13,22 @@ class DataProcessor:
         self.s3 = S3Handler(bucket, config)
         self.scaler = StandardScaler()
 
-    def load_data(self):
+    def run(self):
+        self.clean()
+        self.handle_missing_values()
+        self.transform()
+        print(f"✅ Data Processing Complete.")
+        return self.df
+
+    def clean(self):
         # Set ID column as index if applicable
         if self.id_column and self.id_column in self.df.columns:
             if self.df[self.id_column].is_unique and self.df[self.id_column].isna().sum() == 0:
                 self.df = self.df.set_index(self.id_column)
                 print(f"📎 Set '{self.id_column}' as index.")
 
-    def clean(self):
+
+        # Basic cleaning
         self.df = self.df.drop_duplicates()
         self.df = self.df.dropna(axis=1, how="all")
 
@@ -69,12 +77,3 @@ class DataProcessor:
         cat_cols = [col for col in cat_cols if col != self.target]
 
         self.df = pd.get_dummies(self.df, columns=cat_cols, drop_first=False)
-
-
-    def run(self):
-        self.load_data()
-        self.clean()
-        self.handle_missing_values()
-        self.transform()
-        print(f"✅ Data Processing Complete.")
-        return self.df

@@ -13,14 +13,10 @@ class ModelTrainer:
         self.config = config
         self.task_type = self.config["type"]
         self.target = self.config["target"]
-        self.id_column = self.config.get("id_column", None)
         self.seed = self.config.get("seed", 42)
         self.s3 = S3Handler(bucket, self.config)
 
     def run(self):
-
-        if self.id_column and self.id_column in self.df_processed.columns:
-            self.df_processed = self.df_processed.set_index(self.id_column)
 
         X = self.df_processed.drop(columns=[self.target])
         y = self.df_processed[self.target]

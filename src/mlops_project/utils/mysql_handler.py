@@ -102,12 +102,7 @@ class MySQLHandler:
             conn.execute(sqlalchemy.text(query))
             print(f"✅ Recreated table '{table_name}' using query '{query_key}'")
 
-    def populate_table_from_csv_url(
-            self,
-            table_name: str,
-            url: str,
-            columns: list
-    ):
+    def populate_table_from_csv_url(self, table_name: str, url: str, columns: list):
         """
         Loads a CSV from a URL using S3Handler and inserts it into a MySQL table.
 
