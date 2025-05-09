@@ -1,3 +1,2 @@
 .env
 mlruns/
-connect_to_ec2.sh
