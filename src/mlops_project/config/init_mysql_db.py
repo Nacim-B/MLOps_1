@@ -1,9 +1,13 @@
+import os
+
 from mlops_project.utils.mysql_handler import MySQLHandler
 from mlops_project.config.config_loader import load_config
+from dotenv import load_dotenv
 
 def main():
+    load_dotenv()
     config = load_config("./dev.yaml")
-    mysql = MySQLHandler(config, "./queries.sql")
+    mysql = MySQLHandler(config, os.getenv("MYSQL_DB_DATASETS"),"./queries.sql")
 
     # Reset the table using the named query
     mysql.reset_table(query_key="create_table", table_name="pima_diabetes")
