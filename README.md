@@ -116,3 +116,36 @@ Folder: `.github/workflows/`
 
 ---
 
+### 📊 MLflow UI
+
+- Make sure your `.env` file contains the correct value for `MYSQL_DB_MLFLOW`  
+  Example:
+
+  ```env
+  MYSQL_DB_MLFLOW=mlflow_tracking
+  ```
+
+- This database will be used by MLflow as a **tracking backend** to store experiments, runs, and metrics
+
+- Make the script `start_mlflow_ui.sh` executable (only once):
+
+  ```bash
+  chmod +x start_mlflow_ui.sh
+  ```
+
+- Then launch the MLflow interface locally with:
+
+  ```bash
+  ./start_mlflow_ui.sh
+  ```
+
+- The UI will be available at:
+
+  ```
+  http://localhost:5000
+  ```
+
+> ✅ This setup uses your MySQL database as the backend store, and your S3 bucket to store model artifacts and logs.
+
+---
+

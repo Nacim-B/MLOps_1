@@ -18,7 +18,7 @@ class DataLoader:
                 config=self.config
             )
         if self.data_source == "mysql":
-            self.mysql_handler = MySQLHandler(self.config)
+            self.mysql_handler = MySQLHandler( self.config, os.getenv("MYSQL_DB_DATASETS"))
 
 
     def run(self) -> pd.DataFrame:
@@ -29,10 +29,11 @@ class DataLoader:
         if self.data_source == 'csv_url':
             return self.load_csv_from_url(os.getenv("CSV_URL"))
 
-        elif self.data_source  == 'csv_s3':
-            return self.s3_handler.load_csv_from_s3(self.config['s3_file_path'])
+        if self.data_source == 'csv_s3':
+            return self.s3_handler.load_csv_from_s3(self.config['s3_csv_key'])
 
         elif self.data_source  == 'mysql':
+            print(os.getenv("MYSQL_HOST"))
             df = self.mysql_handler.load_data_from_db("select_all")
             print(df.shape)
             return df
@@ -56,7 +57,7 @@ class DataLoader:
             response.raise_for_status()
             print(f"✅ CSV downloaded from {url}")
             csv_content = response.text
-            df = pd.read_csv(StringIO(csv_content), names=columns, sep=self.config['csv_separator'])
+            df = pd.read_csv(StringIO(csv_content), names=columns, sep=self.config['csv_separator'], engine='python')
             return df
         except requests.RequestException as e:
             print(f"❌ Failed to download CSV: {e}")

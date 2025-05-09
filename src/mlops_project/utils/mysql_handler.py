@@ -4,10 +4,11 @@ import sqlalchemy
 from dotenv import load_dotenv
 import requests
 from io import StringIO
+
 load_dotenv()
 
 class MySQLHandler:
-    def __init__(self, config: dict,  sql_file_path: str = "config/queries.sql"):
+    def __init__(self, config: dict,  database: str, sql_file_path: str = "config/queries.sql"):
         """
         Initialize MySQLHandler from environment variables.
         """
@@ -15,7 +16,7 @@ class MySQLHandler:
         self.port = os.getenv("MYSQL_PORT", "3306")
         self.user = os.getenv("MYSQL_USERNAME")
         self.password = os.getenv("MYSQL_PASSWORD")
-        self.database = os.getenv("MYSQL_DATABASE")
+        self.database = database
         self.sql_file_path = sql_file_path
 
         self.config = config
