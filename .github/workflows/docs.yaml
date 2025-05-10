@@ -44,6 +44,11 @@ jobs:
         run: |
           poetry run mkdocs build
 
+      - name: Fix file permissions in site/
+        run: |
+          find site -type f ! -perm -u=r -exec chmod 644 {} +
+          find site -type d -exec chmod 755 {} +
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
