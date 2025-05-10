@@ -2,7 +2,7 @@
 name = "mlops_project"
 version = "0.1.0"
 description = "Template MLOps End-to-End avec training/predict en containers sur ECS"
-authors = ["<email@example.com>"]
+authors = ["Nacim <nacimabcd@protonmail.com>"]
 readme = "README.md"
 packages = [{ include = "mlops_project", from = "src" }]
 
