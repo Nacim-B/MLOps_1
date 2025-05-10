@@ -40,6 +40,11 @@ jobs:
         run: |
           poetry install --with dev
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
       - name: Build documentation
         run: |
           poetry run mkdocs build
