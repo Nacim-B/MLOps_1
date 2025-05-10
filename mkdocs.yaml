@@ -17,15 +17,5 @@ nav:
   - Home: index.md
   - Configuration:
       - Project config: config.md
-  - Pipelines:
-      - Training: train_pipeline.md
-      - Prediction: predict_pipeline.md
-  - Utilities:
-      - Data Loader: data_loader.md
-      - S3 Handler: s3_handler.md
-      - MySQL Handler: mysql_handler.md
-      - Data Processor: data_processing.md
-      - MlFlow Handler: mlflow_handler.md
-      - Model Trainer: model_training.md
-      - Predictor: prediction.md
+
   - Notebooks: notebooks.md
