@@ -18,12 +18,14 @@ nav:
   - Configuration:
       - Project config: config.md
   - Pipelines:
-      - Download: run_download.md
-      - Preprocessing: run_data_processing.md
-      - Training: run_train.md
-      - Prediction: run_predict.md
+      - Training: train_pipeline.md
+      - Prediction: predict_pipeline.md
   - Utilities:
+      - Data Loader: data_loader.md
       - S3 Handler: s3_handler.md
-      - Model Trainer: modelisation.md
-      - Preprocessing Utils: data_processing.md
+      - MySQL Handler: mysql_handler.md
+      - Data Processor: data_processing.md
+      - MlFlow Handler: mlflow_handler.md
+      - Model Trainer: model_training.md
+      - Predictor: prediction.md
   - Notebooks: notebooks.md

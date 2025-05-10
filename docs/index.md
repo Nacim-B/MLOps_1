@@ -8,7 +8,6 @@ This project aims to provide a complete, automated, and production-ready machine
 ## 📦 Project structure
 
 - `config/` – Project configuration (YAML-based)
-- `run/` – Executable scripts for each pipeline step (download, preprocess, train, predict)
 - `utils/` – Utility modules for S3, preprocessing, modeling, etc.
 - `infra/` – Cloud infrastructure (e.g., AWS CloudFormation)
 - `docs/` – Project documentation (this site)

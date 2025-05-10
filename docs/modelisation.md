@@ -1,1 +1,1 @@
-::: mlops_project.utils.modelisation
+::: mlops_project.utils.model_training
