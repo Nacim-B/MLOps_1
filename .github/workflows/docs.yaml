@@ -1,6 +1,7 @@
 name: Deploy Documentation
 
 on:
+
   workflow_dispatch:
   push:
     branches: [main]
@@ -16,47 +17,41 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      # Checkout le code
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      # Configurer Python
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
-      # Installer Poetry
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      # Installer les dépendances
       - name: Install dependencies
         run: |
           poetry install --with dev
 
-      # Construire la documentation
       - name: Build documentation
         run: |
           poetry run mkdocs build
 
-      # Configurer Pages
       - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v4
 
-      # Télécharger l'artefact
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
-          path: 'site'
+          path: './site'
 
-      # Déployer sur GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
