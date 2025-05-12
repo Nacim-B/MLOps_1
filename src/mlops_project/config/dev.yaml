@@ -10,7 +10,7 @@ id_column: PassengerId
 data_source: 'csv_url' # csv_url, csv_s3 or mysql
 
 # CSV
-csv_separator:  # if necessary, by default -> ","
+csv_separator: , # if necessary, by default -> ","
 
 # S3
 s3_csv_key:  # if csv_s3 is chosen | ex: datasets/titanic_raw.csv
