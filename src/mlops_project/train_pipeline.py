@@ -31,6 +31,7 @@ def main():
         bucket=os.getenv("S3_BUCKET_NAME"),
         df_processed=df_processed,
         model_key=f"models/{config['project_name']}_model.pkl",
+        X_train_key=f"datasets/{config['project_name']}_X_train.csv",
         config=config
     )
     trainer.run()

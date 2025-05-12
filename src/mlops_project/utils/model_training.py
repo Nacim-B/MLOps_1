@@ -13,10 +13,11 @@ from mlops_project.utils.mysql_handler import MySQLHandler
 from mlops_project.utils.mlflow_handler import MLflowHandler
 
 class ModelTrainer:
-    def __init__(self, bucket: str, df_processed: pd.DataFrame, model_key: str, config: dict):
+    def __init__(self, bucket: str, df_processed: pd.DataFrame, model_key: str, X_train_key: str, config: dict):
         self.bucket = bucket
         self.df_processed = df_processed
         self.model_key = model_key
+        self.X_train_key = X_train_key
         self.config = config
         self.task_type = self.config["type"]
         self.target = self.config["target"]
@@ -114,6 +115,7 @@ class ModelTrainer:
 
             # Save to S3
             self.s3.save_model_to_s3(model, self.model_key)
+            self.s3.save_csv_to_s3(X_test, self.X_train_key)
 
             print(f"✅ Model {run_params.get('mode', 'trained')}. Score: {score:.4f}")
 
