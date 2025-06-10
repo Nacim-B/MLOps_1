@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  BucketName:
+    Type: String
+
+Resources:
+  MlopsDataBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      AccessControl: Private
+      VersioningConfiguration:
+        Status: Enabled

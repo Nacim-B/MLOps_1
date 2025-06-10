@@ -1,5 +1,21 @@
-project_name: mlops_project
+project_name: titanic-project
+
 # General configuration
 type: classification # classification or regression
-target:
-id_column:
+target: Survived
+id_column: PassengerId
+
+
+# Data Source
+data_source: 'csv_url' # csv_url, csv_s3 or mysql
+
+# CSV
+csv_separator: # if necessary, by default -> ","
+
+# S3
+s3_csv_key:  # if csv_s3 is chosen | ex: datasets/titanic_raw.csv
+
+
+# Train
+random_state: 42
+
